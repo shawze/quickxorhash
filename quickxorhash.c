@@ -5,18 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <openssl/hmac.h>
-
 #include "quickxorhash.h"
-
-struct qxhash {
-    size_t      width;
-    size_t      shift;
-    size_t      shifted;
-    size_t      len;
-    size_t      cell_len;
-    uint64_t    *cell;
-};
 
     qxhash *
 qxh_new( void )
@@ -96,9 +85,6 @@ qxh_finalize( qxhash *q )
     size_t      b_len_len;
     uint8_t     *b_len = NULL;
     size_t      i;
-    BIO         *bmem = NULL;
-    BIO         *b64 = NULL;
-    char        *hash = NULL;
 
     b_data_len = q->width / 8;
     if (( b_data = calloc( 1, b_data_len )) == NULL ) {
@@ -115,33 +101,12 @@ qxh_finalize( qxhash *q )
     for ( i = 0; i < b_len_len; i++ ) {
         b_data[ b_data_len - b_len_len + i ] ^= b_len[ i ];
     }
-
-    if (( bmem = BIO_new( BIO_s_mem( ))) == NULL ) {
-        goto error;
-    }
-    if (( b64 = BIO_new( BIO_f_base64( ))) == NULL ) {
-        goto error;
-    }
-    b64 = BIO_push( b64, bmem );
-    BIO_write( b64, b_data, b_data_len );
-    (void)BIO_flush( b64 );
-
-    if (( hash = calloc( b_data_len, 2 )) != NULL ) {
-        BIO_read( bmem, hash, b_data_len * 2 );
-        /* Get rid of the trailing newline */
-        hash[ strcspn(hash, "\r\n") ] = '\0';
-    }
-
+    free( b_len );
+    return (char *) b_data;
 error:
-    if ( b64 ) {
-        BIO_free_all( b64 );
-    } else if ( bmem ) {
-        BIO_free_all( bmem );
-    }
     free( b_data );
     free( b_len );
-
-    return( hash );
+    return NULL;
 }
 
     void

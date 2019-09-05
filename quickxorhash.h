@@ -3,6 +3,15 @@
 
 #include <stdint.h>
 
+struct qxhash {
+    size_t      width;
+    size_t      shift;
+    size_t      shifted;
+    size_t      len;
+    size_t      cell_len;
+    uint64_t    *cell;
+};
+
 typedef struct qxhash qxhash;
 
 qxhash  *qxh_new( void );
