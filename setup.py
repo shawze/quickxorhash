@@ -4,7 +4,7 @@ setup(
     name='quickxorhash',
     version = '1.0.1',
     description='Quick XOR hash function for OneDrive for Business',
-    long_description='',
+    long_description_markdown_filename='README.md',
     keywords='quickxorhash onedrive',
     license='MIT',
     author='Harry Chen',
