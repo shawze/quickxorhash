@@ -2,7 +2,7 @@ from distutils.core import setup, Extension
 
 setup(
     name='quickxorhash',
-    version = '1.0.1',
+    version = '1.0.2',
     description='Quick XOR hash function for OneDrive for Business',
     long_description_markdown_filename='README.md',
     keywords='quickxorhash onedrive',
