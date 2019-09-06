@@ -13,8 +13,10 @@ is too plebeian.
 ```python
 >>> import quickxorhash
 >>> h = quickxorhash.quickxorhash()
->>> h.update('hello world')
+>>> h.update(b'hello world')
 >>> print(h.digest())
+b'h(\x03\x1b\xd8\xf0\x06\x10\xdc\xe1\rrk\x03\x19\x00\x00\x00\x00\x00'
 >>> import base64
->>> print(base64.b64encode(h.digest())
+>>> print(base64.b64encode(h.digest()))
+b'aCgDG9jwBhDc4Q1yawMZAAAAAAA='
 ```

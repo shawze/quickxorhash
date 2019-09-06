@@ -27,6 +27,10 @@ quickxorhash_dealloc(quickxorhashObject *self)
 static PyObject *
 quickxorhash_update(quickxorhashObject *self, PyObject *data)
 {
+    if (! PyBytes_Check(data)) {
+        PyErr_Format(PyExc_TypeError, "Argument must be a bytes object not a \"%s\"", Py_TYPE(data)->tp_name);
+        return NULL;
+    }
     char *buf = PyBytes_AsString(data);
     Py_ssize_t size = PyBytes_Size(data);
     qxh_update(self->_hash, (uint8_t *) buf, size);
