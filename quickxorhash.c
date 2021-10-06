@@ -82,7 +82,7 @@ qxh_finalize( qxhash *q )
 {
     size_t      b_data_len;
     uint8_t     *b_data = NULL;
-    size_t      b_len_len;
+    long long int      b_len_len;
     uint8_t     *b_len = NULL;
     size_t      i;
 
@@ -93,6 +93,7 @@ qxh_finalize( qxhash *q )
     memcpy( b_data, q->cell, b_data_len );
 
     b_len_len = sizeof( q->len );
+	// b_len_len = 8;
     if (( b_len = calloc( 1, b_len_len )) == NULL ) {
         goto error;
     }

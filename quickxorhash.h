@@ -7,7 +7,7 @@ struct qxhash {
     size_t      width;
     size_t      shift;
     size_t      shifted;
-    size_t      len;
+    long long int      len;
     size_t      cell_len;
     uint64_t    *cell;
 };
