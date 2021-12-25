@@ -7,7 +7,9 @@ struct qxhash {
     size_t      width;
     size_t      shift;
     size_t      shifted;
-    long long int      len;
+    uint64_t      len;
+    // long long int      len;
+
     size_t      cell_len;
     uint64_t    *cell;
 };
@@ -18,5 +20,6 @@ qxhash  *qxh_new( void );
 void    qxh_update( qxhash *, uint8_t *, size_t );
 char    *qxh_finalize( qxhash * );
 void    qxh_free( qxhash * );
+char    *qxh_file(qxhash *, const char * filename);
 
 #endif /* QUICKXORHASH_H */

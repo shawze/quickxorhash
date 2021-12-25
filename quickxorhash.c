@@ -1,9 +1,12 @@
-/* This file is part of quickxorhash and distributed under the terms of the
+﻿/* This file is part of quickxorhash and distributed under the terms of the
  * MIT license. See COPYING.
  */
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <locale.h>
+
 
 #include "quickxorhash.h"
 
@@ -36,7 +39,7 @@ qxh_update( qxhash *q, uint8_t *data, size_t len )
 {
     size_t  i, j, iterations;
     size_t  cell_index, next_cell;
-    int     cell_bits, cell_bitpos;
+    size_t     cell_bits, cell_bitpos;
     uint8_t new_byte;
 
     cell_index = q->shifted / 64;
@@ -82,7 +85,7 @@ qxh_finalize( qxhash *q )
 {
     size_t      b_data_len;
     uint8_t     *b_data = NULL;
-    long long int      b_len_len;
+    uint64_t      b_len_len;
     uint8_t     *b_len = NULL;
     size_t      i;
 
@@ -117,4 +120,27 @@ qxh_free( qxhash *q )
         free( q->cell );
         free( q );
     }
+}
+
+
+char *
+qxh_file(qxhash *q, const char * filename) {
+    FILE *         fp;
+    uint8_t        buf[ 4096 ];
+    size_t         len;
+
+    setlocale(LC_ALL,"");
+    fp = fopen(filename, "rb");
+//    fp = _wfopen(filename, L"rb");
+
+    if (!fp) {
+        printf("Failed to open %s\n",filename);
+        return NULL;
+    }
+    while ((len = fread(buf, 1, 4096, fp)) > 0) {
+        qxh_update(q, buf, len);
+    }
+    char * hash_code = qxh_finalize(q);
+    return hash_code;
+
 }
