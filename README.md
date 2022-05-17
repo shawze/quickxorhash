@@ -30,7 +30,7 @@ unzip /opt/home/quickxorhash.zip
 cd /opt/home/quickxorhash-master 
 ```
 
-step2: 安装编译
+- 安装编译
 ```
 opkg install gcc
 opkg install python3-dev
